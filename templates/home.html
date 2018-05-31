@@ -40,44 +40,60 @@
       -o-background-size: cover;
     }
 
+    /* headings */
     h7
     {
-      font-size:70px;
+      font-size:85px;
       font-family:Arial, sans-serif;
-      text-shadow:0 0 15px #DDD;
+      text-shadow:0 0 7px #000000;
       font-weight: bold;
       letter-spacing:4px;
       text-decoration:none;
-      color:#424242;
+      color:#FFFFFF;
     }
 
+    /* Time to Desitination */
     h8
     {
-      font-size:75px;
+      font-size:85px;
       font-family:Arial, sans-serif;
-      text-shadow:0 0 15px #DDD;
+      text-shadow:0 0 7px #000000;
       font-weight: bold;
       letter-spacing:4px;
       text-decoration:none;
-      color:#424242;
+      color:#FFFFFF;
     }
 
+    /* Train times */
     h9
     {
-      font-size:60px;
+      font-size:80px;
       font-family:Arial, sans-serif;
-      text-shadow:0 0 15px #DDD;
+      text-shadow:0 0 7px #000000;
       font-weight: bold;
       letter-spacing:4px;
       text-decoration:none;
-      color:#424242;
+      color:#FFFFFF
     }
+
+    /* Time */
+    h10
+    {
+      font-size:120px;
+      font-family:Arial, sans-serif;
+      text-shadow:0 0 7px #000000;
+      font-weight: bold;
+      letter-spacing:4px;
+      text-decoration:none;
+      color:#FFFFFF;
+    }
+
 
     hr
     {
        border: 0;
-       height: 3px;
-       background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+       height: 5px;
+       background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
      }
 
 
@@ -95,11 +111,11 @@
   <div class="row">
 
     <div class="col-lg-4">
-      <br><br><br><br>
+      <br><br><br><
       <div class="jumbotron jumbotron-fluid text-center " style="background-color:rgba(255,255,255,0.0);">
         <div class="container">
           <hr>
-          <h7>Work Commute</h7>
+          <h7>Commute</h7>
           <hr>
           <h8>{{ timeToWork }} </h8>
         </div>
@@ -111,18 +127,18 @@
       <div class="jumbotron jumbotron-fluid text-center " style="background-color:rgba(255,255,255,0.0);">
         <div class="container">
           <hr>
-          <h8><div id="txt"> </div></h8>
+          <h10><div id="txt"> </div></h10>
           <hr>
         </div>
       </div>
     </div>
 
     <div class="col-lg-4">
-      <br><br><br><br>
+      <br><br><br>
       <div class="jumbotron jumbotron-fluid text-center " style="background-color:rgba(255,255,255,0.0);">
         <div class="container">
           <hr>
-          <h7>Train Schedule</h7>
+          <h7>Train</h7>
           <hr>
           <!--<p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>-->
           <h9>{{ schedule_1 }} </h9> </br>

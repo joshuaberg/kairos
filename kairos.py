@@ -28,8 +28,13 @@ def main():
 @app.route('/data', methods = ['POST'])
 def data():
     global api_key
+    global origin
+    global destination
+
     api_key = request.form['api_key']
-    print(api_key)
+    origin = request.form['origin']
+    destination = request.form['destination']
+
     return redirect('/')
 
 @app.route('/setup')
@@ -43,8 +48,8 @@ def getTimetoWork():
     base_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
 
     # Google Distance Matrix domain-specific terms: origins and destinations
-    origin = ['126 New Bern St, Charlotte, NC 28203']
-    destination = ['8900 Northpointe Executive Park Dr, Huntersville, NC 28078']
+    #origin = ['126 New Bern St, Charlotte, NC 28203']
+    #destination = ['8900 Northpointe Executive Park Dr, Huntersville, NC 28078']
 
     # Prepare the request details
     payload = {
@@ -64,16 +69,26 @@ def getTimetoWork():
     return(formatted_duration)
 
 def getNext3Trains():
-    #get full train schedule
-    req = requests.get('https://raw.githubusercontent.com/brandonfancher/charlotte-lightrail/master/src/helpers/schedules.json')
-    parsed_json = req.json()
-    full_schedule = parsed_json['outboundWeekday']['station-19']
-
-    #get current time in minutes
+    #get current time in minutes + current day of the week
     now = datetime.datetime.now()
     h = now.hour
     m = now.minute
     time_min = (h*60) + m
+    day = datetime.date.today().weekday()  # 0 is monday   6 is sunday
+
+
+    #get full train schedule
+    req = requests.get('https://raw.githubusercontent.com/brandonfancher/charlotte-lightrail/master/src/helpers/schedules.json')
+    parsed_json = req.json()
+
+    # get the current weekday's full schedule
+    if day == 5:
+        full_schedule = parsed_json['outboundSaturday']['station-19']
+    elif day == 6:
+        full_schedule = parsed_json['outboundSunday']['station-19']
+    else:
+        full_schedule = parsed_json['outboundWeekday']['station-19']
+
 
     #go through schedule and get next 3 trains
     next3Trains = []
