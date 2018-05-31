@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Big Top Area -->
+<div class="jumbotron text-center">
+  <h1>Kairos</h1>
+  <p>Enter the required details to use the program!</p>
+</div>
+
+<!-- Middle Columns -->
+<div class="container">
+  <div class="row text-center">
+    <form action="/data" method="post">
+      API Key:<br>
+      <input type="text" name="api_key"></input>
+      <br>
+      Home Adress:<br>
+      <input type="text" name="h_address"></input>
+      <br>
+      Destination:<br>
+      <input type="text" name="d_address"></input>
+      <br>
+      <input type="submit" value="Confirm"></input>
+    </form>
+
+  </div>
+</div>
+
+<!-- Bottom Nav Bar -->
+<div class="navbar navbar-inverse navbar-fixed-bottom justify-content-center">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Kairos</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="setup">Setup</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <p class="navbar-brand" href="#">Written by Joshua Berg</p>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
