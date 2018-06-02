@@ -18,11 +18,20 @@ def main():
     schedule_1 = selectScheduleTime(next3Trains,0)
     schedule_2 = selectScheduleTime(next3Trains,1)
     schedule_3 = selectScheduleTime(next3Trains,2)
-    #print(schedule_1)
-    #print(schedule_2)
-    #print(schedule_3)
 
-    return render_template('home.html',timeToWork = timeToWork, schedule_1 = schedule_1, schedule_2 = schedule_2 ,schedule_3 = schedule_3)
+    try:
+        weather_data = getWeather()
+    except Exception:
+        weather_data = ['NaN','NaN','NaN','NaN']
+
+    icon = weather_data[0]
+    description= weather_data[1]
+    temp_min = weather_data[2]
+    temp_max = weather_data[3]
+    #print(description)
+
+    return render_template('home.html',timeToWork = timeToWork, schedule_1 = schedule_1, schedule_2 = schedule_2 ,schedule_3 = schedule_3, icon = icon, description=description, temp_min = temp_min, temp_max = temp_max)
+
 
 
 @app.route('/data', methods = ['POST'])
@@ -30,10 +39,12 @@ def data():
     global api_key
     global origin
     global destination
+    global weather_api_key
 
     api_key = request.form['api_key']
     origin = request.form['origin']
     destination = request.form['destination']
+    weather_api_key = request.form['weather_api_key']
 
     return redirect('/')
 
@@ -47,9 +58,7 @@ def getTimetoWork():
     # Google Distance Matrix base URL to which all other parameters are attached
     base_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
 
-    # Google Distance Matrix domain-specific terms: origins and destinations
-    #origin = ['126 New Bern St, Charlotte, NC 28203']
-    #destination = ['8900 Northpointe Executive Park Dr, Huntersville, NC 28078']
+    #Note: origin, destination and api key recieved from the setup page and given as a global variable
 
     # Prepare the request details
     payload = {
@@ -119,5 +128,35 @@ def selectScheduleTime(array,num):
         return(array[num])
     except:
         return('none')
+
+def getWeather():
+    #req = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=229dd301e4f45f8d0d96eb28c6592c7e')
+    base_url = 'http://api.openweathermap.org/data/2.5/weather?'
+    payload = {
+        'q' : 'Charlotte',
+        'APPID': weather_api_key,
+        }
+    req = requests.get(base_url, params = payload)
+
+    parsed_json = req.json()
+    icon_id = parsed_json['weather'][0]['id']
+    weather_description = parsed_json['weather'][0]['description']
+    temp_min = math.floor(((parsed_json['main']['temp_min'])*(9/5)) - 459.67)
+    temp_max = math.floor(((parsed_json['main']['temp_max'])*(9/5)) - 459.67)
+    print(weather_description)
+
+    with open('weather.json') as f:
+        parsed_json = json.load(f)
+
+    icon_name = parsed_json[str(icon_id)]["icon"]
+
+    weather_data = [icon_name, weather_description, temp_min, temp_max]
+    return(weather_data)
+
+
+
+
+
+
 
 app.run(debug=True)

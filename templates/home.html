@@ -8,6 +8,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+  <!--<link type="text/css" rel="stylesheet" href="./tabs_css/navigation.css">-->
+  <link rel="stylesheet" href="/static/css/weather-icons.css">
+
+
   <script>
   function startTime() {
     var today = new Date();
@@ -79,7 +83,29 @@
     /* Time */
     h10
     {
-      font-size:120px;
+      font-size:150px;
+      font-family:Arial, sans-serif;
+      text-shadow:0 0 7px #000000;
+      font-weight: bold;
+      letter-spacing:4px;
+      text-decoration:none;
+      color:#FFFFFF;
+    }
+    /* weather description */
+    h11
+    {
+      font-size:40px;
+      font-family:Arial, sans-serif;
+      text-shadow:0 0 7px #000000;
+      font-weight: bold;
+      letter-spacing:4px;
+      text-decoration:none;
+      color:#FFFFFF;
+    }
+    /* temperatures */
+    h12
+    {
+      font-size:60px;
       font-family:Arial, sans-serif;
       text-shadow:0 0 7px #000000;
       font-weight: bold;
@@ -88,14 +114,12 @@
       color:#FFFFFF;
     }
 
-
     hr
     {
        border: 0;
        height: 5px;
-       background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+       background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
      }
-
 
 
   </style>
@@ -111,7 +135,7 @@
   <div class="row">
 
     <div class="col-lg-4">
-      <br><br><br><
+      <br><br><br>
       <div class="jumbotron jumbotron-fluid text-center " style="background-color:rgba(255,255,255,0.0);">
         <div class="container">
           <hr>
@@ -129,6 +153,57 @@
           <hr>
           <h10><div id="txt"> </div></h10>
           <hr>
+          <br>
+        <!--  <i class="wi wi-night-sleet"></i> -->
+
+        {% if icon == "storm-showers" %}
+          <i class="wi wi-storm-showers"></i>
+        {% elif icon == "thunderstorm"%}
+          <i class="wi wi-thunderstorm"></i>
+        {% elif icon == "sprinkle"%}
+          <i class="wi wi-sprinkle"></i>
+        {% elif icon == "rain"%}
+          <i class="wi wi-rain"></i>
+        {% elif icon == "rain-mix"%}
+          <i class="wi wi-rain-mix"></i>
+        {% elif icon == "showers"%}
+          <i class="wi wi-showers"></i>
+        {% elif icon == "snow"%}
+          <i class="wi wi-snow"></i>
+        {% elif icon == "sleet"%}
+          <i class="wi wi-sleet"></i>
+        {% elif icon == "smoke"%}
+          <i class="wi wi-smoke"></i>
+        {% elif icon == "haze"%}
+          <i class="wi wi-day-haze"></i>
+        {% elif icon == "fog"%}
+          <i class="wi wi-fog"></i>
+        {% elif icon == "cloudy-gusts"%}
+          <i class="wi wi-cloudy-gusts"></i>
+        {% elif icon == "windy"%}
+          <i class="wi wi-windy"></i>
+        {% elif icon == "tornado"%}
+          <i class="wi wi-tornado"></i>
+        {% elif icon == "sunny"%}
+          <i class="wi wi-day-sunny"></i>
+        {% elif icon == "cloudy"%}
+          <i class="wi wi-cloudy"></i>
+        {% elif icon == "hurricane"%}
+          <i class="wi wi-hurricane"></i>
+        {% elif icon == "snowflake-cold"%}
+          <i class="wi wi-snowflake-cold"></i>
+        {% elif icon == "hot"%}
+          <i class="wi wi-hot"></i>
+        {% elif icon == "hail"%}
+          <i class="wi wi-hail"></i>
+        {% endif %}
+        <br><br>
+        <h11> {{ description }} </h11>
+        <hr>
+        <h12> {{temp_min}}     -     </h12>  <h12>{{temp_max}}</h12>
+
+
+
         </div>
       </div>
     </div>
