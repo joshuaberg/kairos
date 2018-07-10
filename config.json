@@ -1,0 +1,8 @@
+{
+  "config":{
+    "google_api": "ENTER_API_HERE",
+    "weather_api": "ENTER_API_HERE",
+    "destination": "ENTER_DESTINATION_HERE",
+    "origin": "ENTER_ORIGIN_HERE"
+  }
+}

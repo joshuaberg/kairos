@@ -6,8 +6,25 @@ import datetime
 
 app = Flask(__name__)
 
+global api_key
+global origin
+global destination
+global weather_api_key
+
 @app.route('/')
 def main():
+    
+    try:
+        checkConfig()
+    except Exception:
+        print('config file not found')
+
+    print(api_key)
+    print(origin)
+    print(destination)
+    print(weather_api_key)
+
+
     try:
         timeToWork = getTimetoWork()
         #print(timeToWork)
@@ -131,7 +148,12 @@ def selectScheduleTime(array,num):
 
 def getWeather():
     #req = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=229dd301e4f45f8d0d96eb28c6592c7e')
+
+
+
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
+
+
     payload = {
         'q' : 'Charlotte',
         'APPID': weather_api_key,
@@ -153,10 +175,19 @@ def getWeather():
     weather_data = [icon_name, weather_description, temp_min, temp_max]
     return(weather_data)
 
+def checkConfig():
+    global api_key
+    global origin
+    global destination
+    global weather_api_key
 
+    with open('config.json') as f:
+        parsed_json = json.load(f)
 
-
-
+    api_key = parsed_json['config']['google_api']
+    weather_api_key = parsed_json['config']['weather_api']
+    origin = parsed_json['config']['origin']
+    destination = parsed_json['config']['destination']
 
 
 app.run(debug=True)
