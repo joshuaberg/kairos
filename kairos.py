@@ -10,20 +10,20 @@ global api_key
 global origin
 global destination
 global weather_api_key
+global configCheck
+configCheck = 0
 
 @app.route('/')
 def main():
-    
-    try:
-        checkConfig()
-    except Exception:
-        print('config file not found')
-
-    print(api_key)
-    print(origin)
-    print(destination)
-    print(weather_api_key)
-
+    global configCheck
+    #check for config file the first time program is run
+    #if setup page is used, the config variable will be overwritten
+    if configCheck == 0:
+        try:
+            checkConfig()
+        except Exception:
+            print('config file not found')
+        configCheck = 1
 
     try:
         timeToWork = getTimetoWork()
