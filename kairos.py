@@ -25,12 +25,24 @@ def main():
             print('config file not found')
         configCheck = 1
 
-    try:
-        timeToWork = getTimetoWork()
-        #print(timeToWork)
-    except Exception:
-        timeToWork = "NaN"
-        #print("Nope")
+    #get current time in minutes + current day of the week
+    now = datetime.datetime.now()
+    hour = now.hour #24 hour scale
+    day = datetime.date.today().weekday()  # 0 is monday   6 is sunday
+
+    #only run time to work on weekdays from 5 to 9
+    if day < 5:
+        if hour >= 5 and hour <=21:
+            try:
+                timeToWork = getTimetoWork()
+            except Exception:
+                timeToWork = "Error"
+        else:
+            timeToWork = "Timeout"
+    else:
+        timeToWork = "Timeout"
+
+
     next3Trains = getNext3Trains()
     schedule_1 = selectScheduleTime(next3Trains,0)
     schedule_2 = selectScheduleTime(next3Trains,1)
@@ -43,11 +55,9 @@ def main():
 
     icon = weather_data[0]
     description= weather_data[1]
-    temp_min = weather_data[2]
-    temp_max = weather_data[3]
-    #print(description)
+    temp = weather_data[2]
 
-    return render_template('home.html',timeToWork = timeToWork, schedule_1 = schedule_1, schedule_2 = schedule_2 ,schedule_3 = schedule_3, icon = icon, description=description, temp_min = temp_min, temp_max = temp_max)
+    return render_template('home.html',timeToWork = timeToWork, schedule_1 = schedule_1, schedule_2 = schedule_2 ,schedule_3 = schedule_3, icon = icon, description=description, temp = temp)
 
 
 
@@ -71,7 +81,6 @@ def setup():
 
 
 def getTimetoWork():
-
     # Google Distance Matrix base URL to which all other parameters are attached
     base_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
 
@@ -147,13 +156,7 @@ def selectScheduleTime(array,num):
         return('none')
 
 def getWeather():
-    #req = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=229dd301e4f45f8d0d96eb28c6592c7e')
-
-
-
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
-
-
     payload = {
         'q' : 'Charlotte',
         'APPID': weather_api_key,
@@ -163,8 +166,8 @@ def getWeather():
     parsed_json = req.json()
     icon_id = parsed_json['weather'][0]['id']
     weather_description = parsed_json['weather'][0]['description']
-    temp_min = math.floor(((parsed_json['main']['temp_min'])*(9/5)) - 459.67)
-    temp_max = math.floor(((parsed_json['main']['temp_max'])*(9/5)) - 459.67)
+    temp = math.floor(((parsed_json['main']['temp'])*(9/5)) - 459.67)
+    #temp_max = math.floor(((parsed_json['main']['temp_max'])*(9/5)) - 459.67)
     print(weather_description)
 
     with open('weather.json') as f:
@@ -172,7 +175,7 @@ def getWeather():
 
     icon_name = parsed_json[str(icon_id)]["icon"]
 
-    weather_data = [icon_name, weather_description, temp_min, temp_max]
+    weather_data = [icon_name, weather_description, temp]
     return(weather_data)
 
 def checkConfig():
